@@ -17,12 +17,9 @@ impl Snails {
             let mut i = 0;
             while i < vec.len(){
                 if vec[i].1 == l {
-                    //println!("i: {}", i);
-                    //println!("[{},{}] at l= {}", vec[i].0, vec[i+1].0,l);
                     vec[i].1 -= 1;
                     vec[i].0 = 3 * vec[i].0 + 2 * vec[i+1].0;
                     vec.remove(i+1);
-                    //println!("{:?}", vec);
                 }
                 i += 1;
             } 
@@ -31,7 +28,6 @@ impl Snails {
     }
 
     fn add_snails(self, snails: Snails) -> Snails{
-        //println! ("add snails");
         Snails{ 
             numbers_and_depth: 
                 [self.numbers_and_depth, snails.numbers_and_depth]
@@ -40,12 +36,10 @@ impl Snails {
     }
 
     fn expload(mut self) -> Snails{
-        //println!("expload {:?}", self);
         let mut changed = false;
         for i in 0..self.numbers_and_depth.len() {
             if i >= self.numbers_and_depth.len() { break; }
             if self.numbers_and_depth[i].1 == 5 {
-                //println!("found depth 5 at i:{}", i);
                 changed = true;
                 if i > 0 {
                     self.numbers_and_depth[i-1].0 += self.numbers_and_depth[i].0;
@@ -57,25 +51,21 @@ impl Snails {
                 self.numbers_and_depth[i].0 = 0;
                 self.numbers_and_depth[i].1 -= 1;
                 self.numbers_and_depth.remove(i+1);
-                //println!("exploaded to {:?}",self);
             } 
         }
 
         for i in 0..self.numbers_and_depth.len() {
             if self.numbers_and_depth[i].0 > 9 {
                 changed = true;
-                //println!("found too high number at i:{} v:{}",i, self.numbers_and_depth[i].0);
                 let pre_split = self.numbers_and_depth[i].0;
                 self.numbers_and_depth[i].0 = pre_split / 2;
                 self.numbers_and_depth[i].1 += 1;
                 self.numbers_and_depth.insert(i+1, (pre_split - (self.numbers_and_depth[i].0), self.numbers_and_depth[i].1));
 
-                //println!("split to {:?}",self);
                 break;
             }
         }
 
-        //println!("changed {}, exploaded {:?}",changed,  self);
         if changed == true {return self.expload();} else {return self;}
     }
 }
@@ -115,7 +105,7 @@ impl Deserializable for Snails {
 }
 
 pub fn solve_snails_two() -> String {
-    let input: Vec<Snails> = read_input("snails_test"); 
+    let input: Vec<Snails> = read_input("input/21-18"); 
     let mut sums = Vec::<u32>::new();
     for i in 0..input.len() {
         for j in 0..input.len() {
@@ -129,7 +119,7 @@ pub fn solve_snails_two() -> String {
 }
 
 pub fn solve_snails() -> String {
-   let input: Vec<Snails> = read_input("snails_test"); 
+   let input: Vec<Snails> = read_input("input/21-18"); 
 
    //println!("{:?} thats all", input);
 
