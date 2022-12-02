@@ -6,7 +6,7 @@ pub fn solve() -> String {
         .group_by(|a,b| a.is_some() && b.is_some())
         .into_iter()
         .map(|g| g
-             .iter()
+             .into_iter()
              .filter_map(|i| i.as_ref())
              .sum())
         .fold(0, |a,b| a.max(b));
