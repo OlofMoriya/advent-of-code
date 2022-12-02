@@ -2,6 +2,7 @@ use std::fs;
 
 use crate::deserializable::Deserializable;
 
+#[allow(dead_code)]
 pub fn read_input_with_none<T>(file_path: &str) -> Vec<Option<T>> where T: Deserializable {
     let input = fs::read(file_path);
     match input {
@@ -27,6 +28,7 @@ pub fn read_input_with_none<T>(file_path: &str) -> Vec<Option<T>> where T: Deser
     }
 }
 
+#[allow(dead_code)]
 pub fn read_input<T>(file_path: &str) -> Vec<T> where T: Deserializable {
     let input = fs::read(file_path);
     match input {
