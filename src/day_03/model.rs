@@ -2,7 +2,7 @@ use core::fmt;
 use std::error::Error;
 
 use crate::deserializable::Deserializable;
-use crate::vec_helper::filter_uniq;
+use crate::vec_helper::find_duplicate;
 
 #[derive(Debug)]
 pub struct RugsackError {}
@@ -36,10 +36,6 @@ impl Deserializable for Rugsack {
 
 impl Rugsack {
     pub fn find_duplicate(self) -> Vec<char> {
-        let mut duplicates = vec!();
-        self.compartment_one.iter().for_each(|c| if self.compartment_two.contains(c){
-            duplicates.push(c.clone());
-        });
-        return filter_uniq(duplicates);
+        return find_duplicate(vec!{self.compartment_one, self.compartment_two});
     }
 }
