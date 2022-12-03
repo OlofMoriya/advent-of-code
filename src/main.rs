@@ -1,10 +1,12 @@
 #![feature(slice_group_by)]
 mod input_helper;
-mod day_02;
+mod vec_helper;
 mod deserializable;
 mod u32_extension;
 
-use crate::day_02::solver::{solve, solve_two};  
+mod day_03;
+
+use crate::day_03::solver::{solve, solve_two};  
 
 fn main() {
     println!();

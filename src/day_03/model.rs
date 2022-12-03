@@ -2,27 +2,44 @@ use core::fmt;
 use std::error::Error;
 
 use crate::deserializable::Deserializable;
+use crate::vec_helper::filter_uniq;
 
 #[derive(Debug)]
-pub struct XError {}
+pub struct RugsackError {}
 
-impl Error for XError {}
-impl fmt::Display for XError{
+impl Error for RugsackError {}
+impl fmt::Display for RugsackError{
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        write!(f, "X had an error")
+        write!(f, "Rugsack had an error")
     }
 } 
 
-#[derive(Debug)]
-pub struct X {
+#[derive(Debug, Clone)]
+pub struct Rugsack {
+    compartment_one : Vec<char>,
+    compartment_two : Vec<char>,
+    pub items: Vec<char>
 }
 
-impl Deserializable for X {
-    type Err = XError;
+impl Deserializable for Rugsack {
+    type Err = RugsackError;
     fn deserialize(s: &str) -> Result<Self, Self::Err> {
-        return Ok(X {});
+        let (left, right) = s.split_at(s.len()/2);
+         
+        return Ok(Rugsack {
+            items: s.chars().collect(),
+            compartment_one: left.chars().collect(),
+            compartment_two: right.chars().collect()
+        });
     }
 }
 
-impl X {
+impl Rugsack {
+    pub fn find_duplicate(self) -> Vec<char> {
+        let mut duplicates = vec!();
+        self.compartment_one.iter().for_each(|c| if self.compartment_two.contains(c){
+            duplicates.push(c.clone());
+        });
+        return filter_uniq(duplicates);
+    }
 }
