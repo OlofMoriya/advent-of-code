@@ -4,9 +4,10 @@ mod vec_helper;
 mod deserializable;
 mod u32_extension;
 
-mod day_03;
-
-use crate::day_03::solver::{solve, solve_two};  
+// Day mod
+mod day_04;
+// Solvers
+use crate::day_04::solver::{solve, solve_two};  
 
 fn main() {
     println!();

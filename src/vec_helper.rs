@@ -1,5 +1,6 @@
 use std::collections::HashSet;
 
+#[allow(dead_code)]
 pub fn filter_uniq<T>(vec: &Vec<T>) -> Vec<T> where T: Eq + std::hash::Hash + Clone {
     vec.into_iter().cloned()
         .collect::<HashSet<_>>()
@@ -7,6 +8,7 @@ pub fn filter_uniq<T>(vec: &Vec<T>) -> Vec<T> where T: Eq + std::hash::Hash + Cl
         .collect()
 }
 
+#[allow(dead_code)]
 pub fn find_duplicate<T>(vectors: Vec<Vec<T>>) -> Vec<T> where T: Eq + Clone + std::hash::Hash {
     let duplicates = vectors[0].to_vec();
     let folded = vectors
