@@ -4,12 +4,15 @@ use std::error::Error;
 use crate::{deserializable::Deserializable, vec_helper::find_duplicate};
 
 #[derive(Debug)]
-pub struct XError {}
+pub struct XError {
+    message: String
+}
 
-impl Error for XError {}
+impl Error for XError {
+}
 impl fmt::Display for XError{
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        write!(f, "X had an error")
+        write!(f, "Parsing had an error, {}", self.message)
     }
 } 
 
@@ -23,16 +26,18 @@ impl Deserializable for Pair {
     type Err = XError;
     fn deserialize(s: &str) -> Result<Self, Self::Err> {
         
-        let (left,right) = s.split_once(",").unwrap();
-        let (l_left, l_right) = left.split_once("-").unwrap();
-        let (r_left, r_right) = right.split_once("-").unwrap();
-        let left_range_left:u32 = l_left.parse::<u32>().unwrap();
-        let left_range_right:u32 = l_right.parse::<u32>().unwrap();
-        let left_range = (left_range_left..=left_range_right).collect();
-        
-        let right_range_left:u32 = r_left.parse::<u32>().unwrap();
-        let right_range_right:u32 = r_right.parse::<u32>().unwrap();
-        let right_range = (right_range_left..=right_range_right).collect();
+        let bounds:Vec<u32> = s.split(",")
+            .map(|i| i.split("-").collect::<Vec<&str>>())
+            .flatten()
+            .map(|s:&str| s.parse::<u32>().expect("Could not parse value to u32"))
+            .collect();
+
+        if bounds.len() != 4 {
+            return Err(XError{message: "Incorrect split happened".to_string()});
+        }
+        let left_range = (bounds[0]..=bounds[1]).collect();
+        let right_range = (bounds[2]..=bounds[3]).collect();
+
 
         return Ok(Pair {
            left: left_range,
