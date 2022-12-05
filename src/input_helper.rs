@@ -29,6 +29,23 @@ pub fn read_input_with_none<T>(file_path: &str) -> Vec<Option<T>> where T: Deser
 }
 
 #[allow(dead_code)]
+pub fn read_input_as_str(file_path: &str) -> Vec<String> {
+
+    let input = fs::read(file_path);
+    match input {
+        Err(error) => {
+            println!("{}", error);
+            panic!();
+        },
+        Ok(content) => {
+            let all_as_string = String::from_utf8_lossy(&content);
+            let rows = all_as_string.lines();
+            return rows.map(|s| s.to_string()).collect();
+        }
+    }
+}
+
+#[allow(dead_code)]
 pub fn read_input<T>(file_path: &str) -> Vec<T> where T: Deserializable {
     let input = fs::read(file_path);
     match input {
