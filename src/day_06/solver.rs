@@ -1,9 +1,6 @@
-use std::fs;
-
 use itertools::Itertools;
 
-use crate::{input_helper, vec_helper::filter_uniq};
-use super::model::X;
+use crate::vec_helper::filter_uniq;
 
 pub fn solve() -> String {
     let chars: Vec<char> = include_str!("../../input/22_06")
@@ -31,3 +28,4 @@ pub fn solve_two() -> String {
     
     return format!("first message at {}", first.expect("aoc will not lie").0 + 14);
 }
+
