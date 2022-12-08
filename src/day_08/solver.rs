@@ -1,6 +1,8 @@
-#[derive(Debug)]
+use itertools::Itertools;
+
+#[derive(Debug,Clone)]
 struct Tree {
-    height: u32,
+    height: i32,
     visible: bool,
 }
 
@@ -9,56 +11,34 @@ pub fn solve() -> String {
     let lines = string.lines();
 
     let mut matrix:Vec<Vec<Tree>> = vec!();
-//    let input = input_helper::read_input("input/22_08_test");
+
+
+    let mut max_line = vec![-1;lines.clone().last().unwrap().len()];
+    let mut max_line_bottom = max_line.clone();
+
+
     for line in lines {
-        let new_line = line
-                    .chars()
-                    .map(|c| Tree{
-                        height:c.to_digit(10).unwrap(),
-                        visible: false,
-
-                    })
-                    .collect::<Vec<Tree>>();
-
-        matrix.push(new_line);
+        let line:Vec<i32> = line.chars().map(|c| c.to_digit(10).unwrap() as i32).collect();
+        let new_line: Vec<Tree> = line.iter().enumerate().map(|(i,d)| Tree{
+            height:*d,
+            visible: 
+                line[0..i].iter().all(|f| f < d) || 
+                line[i+1..].iter().all(|f| f < d) || 
+                d > &max_line[i],
+        }).collect();
+        matrix.push(new_line.clone());
+        max_line = max_line.iter().enumerate().map(|(i,d)| *(d.max(&new_line[i].height))).collect();
     }
 
-    let mut max_top = vec![0; matrix[0].len()];
-    for (row_index, line) in matrix.iter_mut().enumerate() {
-       let mut max_left = 0;
-       for (column_index, tree) in line.iter_mut().enumerate() {
-            //un
-            if row_index == 0 || column_index == 0 {
-                tree.visible = true;
-            }
-            if tree.height > max_top[column_index] || tree.height > max_left {
-                tree.visible = true;
-            }
-
-            max_top[column_index] = tree.height.max(max_top[column_index]);
-            max_left = tree.height.max(max_left);
-       }
-       line.reverse();
+    // Check from the bottom up which could not be done until all rows had been mapped out.
+    for row in (0..matrix.len()).rev() {
+        for i in 0..matrix[row].len() {
+            matrix[row][i].visible = matrix[row][i].visible || matrix[row][i].height > max_line_bottom[i];
+        }
+        max_line_bottom = max_line_bottom.iter().enumerate().map(|(i,d)| *(d.max(&matrix[row][i].height))).collect();
     }
-    matrix.reverse();
-    
 
-    let mut max_top = vec![0; matrix[0].len()];
-    for (row_index, line) in matrix.iter_mut().enumerate() {
-        let mut max_left = 0;
-       for (column_index, tree) in line.iter_mut().enumerate() {
-            //un
-            if row_index == 0 || column_index == 0 || tree.height > max_top[column_index] || tree.height > max_left {
-                tree.visible = true;
-            }
-
-            max_top[column_index] = tree.height.max(max_top[column_index]);
-            max_left = tree.height.max(max_left);
-       }
-    }
-    
-    let visible = matrix.iter().flatten().filter(|t| t.visible).count();
-    return format!("{}", visible);
+    return format!("{:#?}", matrix.iter().flatten().filter(|t| t.visible).count());
 }
 
 pub fn solve_two() -> String {
@@ -71,9 +51,8 @@ pub fn solve_two() -> String {
         let new_line = line
                     .chars()
                     .map(|c| Tree{
-                        height:c.to_digit(10).unwrap(),
+                        height:c.to_digit(10).unwrap() as i32,
                         visible: false,
-
                     })
                     .collect::<Vec<Tree>>();
 
@@ -107,13 +86,11 @@ pub fn solve_two() -> String {
             } 
             for i in row+1..matrix.len() {
                 bottom += 1; 
-                //println!("{row},{column}; looking for bottom: current h: {}, comparing to {i},{column} with {}", matrix[row][column].height, matrix[i][column].height);
                 if matrix[i][column].height >= matrix[row][column].height {
                     break;
                 }
             } 
             let prod = left * right * top * bottom;
-            //println!("x,y {row},{column} has top:{top}, left:{left}, right:{right}, bottom:{bottom}");
             max = max.max(prod);
         }
     }
