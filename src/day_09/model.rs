@@ -42,13 +42,15 @@ impl Deserializable for Move {
 }
 
 impl Move {
-    pub fn move_point(&self, head: &(isize, isize), tail: &mut (isize, isize)) -> String {
+    pub fn move_point(&self, head: &(isize, isize), tail: &mut (isize, isize)) -> (String, Option<Move>) {
+        let mut side_effect: Option<Move> = None;
         match self {
             Move::Up(_) => {
                 if tail.1.abs_diff(head.1) == 2 {
                     tail.1 -= 1;
                     if tail.0 != head.0 {
-                        tail.0 = head.0;
+                        side_effect = Some(if tail.0 < head.0 {Move::Right(1)} else {Move::Left(1)});
+                        //tail.0 = head.0;
                     } 
                 }
             }
@@ -56,7 +58,8 @@ impl Move {
                 if (tail.1).abs_diff(head.1) == 2 {
                     tail.1 += 1;
                     if tail.0 != head.0 {
-                        tail.0 = head.0;
+                        side_effect = Some(if tail.0 < head.0 {Move::Right(1)} else {Move::Left(1)});
+                        //tail.0 = head.0;
                     } 
                 }
             },
@@ -64,7 +67,8 @@ impl Move {
                 if (tail.0).abs_diff(head.0) == 2 {
                     tail.0 -= 1;
                     if tail.1 != head.1 {
-                        tail.1 = head.1;
+                        side_effect = Some(if tail.1 < head.1 {Move::Down(1)} else {Move::Up(1)});
+                        //tail.1 = head.1;
                     } 
                 }
             },
@@ -72,12 +76,13 @@ impl Move {
                 if (tail.0).abs_diff(head.0) == 2 {
                     tail.0 += 1;
                     if tail.1 != head.1 {
-                        tail.1 = head.1;
+                        side_effect = Some(if tail.1 < head.1 {Move::Down(1)} else {Move::Up(1)});
+                        //tail.1 = head.1;
                     } 
                 }
             },
         };
         //println!("move {:?}, passes possition {},{}", self, tail.1, tail.0);
-        return format!("{},{}", tail.0, tail.1);
+        return (format!("{},{}", tail.0, tail.1), side_effect);
     }
 }
