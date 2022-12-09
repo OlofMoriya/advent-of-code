@@ -1,5 +1,6 @@
 use core::fmt;
 use std::error::Error;
+use std::num::ParseIntError;
 
 use crate::deserializable::Deserializable;
 
@@ -17,18 +18,28 @@ impl fmt::Display for XError{
 } 
 
 #[derive(Debug, Clone)]
-pub struct X {
-    pub message: String
+pub enum Move {
+    Up(usize),
+    Down(usize),
+    Left(usize),
+    Right(usize),
 }
 
-impl Deserializable for X {
-    type Err = XError;
+impl Deserializable for Move {
+    type Err = ParseIntError;
     fn deserialize(s: &str) -> Result<Self, Self::Err> {
-        return Ok(X {
-            message: s.to_string()
-        });
+        let (dir, length) = s.split_once(" ").expect("these will always be a direction and lengthn");
+        let length = length.parse::<usize>()?; 
+
+        Ok(match dir {
+            "U" => Move::Up(length),
+            "D" => Move::Down(length),
+            "L" => Move::Left(length),
+            "R" => Move::Right(length),
+            _ => unreachable!()
+        })
     }
 }
 
-impl X {
+impl Move {
 }
