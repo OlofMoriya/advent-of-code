@@ -49,8 +49,8 @@ impl Move {
                 if tail.1.abs_diff(head.1) == 2 {
                     tail.1 -= 1;
                     if tail.0 != head.0 {
-                        side_effect = Some(if tail.0 < head.0 {Move::Right(1)} else {Move::Left(1)});
-                        //tail.0 = head.0;
+                        //side_effect = Some(if tail.0 < head.0 {Move::Right(1)} else {Move::Left(1)});
+                        tail.0 = head.0;
                     } 
                 }
             }
@@ -58,8 +58,8 @@ impl Move {
                 if (tail.1).abs_diff(head.1) == 2 {
                     tail.1 += 1;
                     if tail.0 != head.0 {
-                        side_effect = Some(if tail.0 < head.0 {Move::Right(1)} else {Move::Left(1)});
-                        //tail.0 = head.0;
+                        //side_effect = Some(if tail.0 < head.0 {Move::Right(1)} else {Move::Left(1)});
+                        tail.0 = head.0;
                     } 
                 }
             },
@@ -67,8 +67,8 @@ impl Move {
                 if (tail.0).abs_diff(head.0) == 2 {
                     tail.0 -= 1;
                     if tail.1 != head.1 {
-                        side_effect = Some(if tail.1 < head.1 {Move::Down(1)} else {Move::Up(1)});
-                        //tail.1 = head.1;
+                        //side_effect = Some(if tail.1 < head.1 {Move::Down(1)} else {Move::Up(1)});
+                        tail.1 = head.1;
                     } 
                 }
             },
@@ -76,8 +76,8 @@ impl Move {
                 if (tail.0).abs_diff(head.0) == 2 {
                     tail.0 += 1;
                     if tail.1 != head.1 {
-                        side_effect = Some(if tail.1 < head.1 {Move::Down(1)} else {Move::Up(1)});
-                        //tail.1 = head.1;
+                        //side_effect = Some(if tail.1 < head.1 {Move::Down(1)} else {Move::Up(1)});
+                        tail.1 = head.1;
                     } 
                 }
             },
