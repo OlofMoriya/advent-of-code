@@ -5,9 +5,9 @@ mod deserializable;
 mod u32_extension;
 
 // Day mod
-mod day_11;
+mod day_12;
 // Solvers
-use crate::day_11::solver::{solve, solve_two};  
+use crate::day_12::solver::{solve, solve_two};  
 
 fn main() {
     println!();

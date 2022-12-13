@@ -28,9 +28,9 @@ pub enum Operation {
 impl Operation {
     pub fn do_op(&self, value: u64, divisible: u64) -> u64 {
        return match self {
-           Operation::Add(v) => (v + value) % divisible,
-           Operation::Multiply(v) => (v * value) %divisible,
-           Operation::Square => (value * value)%divisible,
+           Operation::Add(v) => (v + value) ,
+           Operation::Multiply(v) => (v * value),
+           Operation::Square => (value * value),
        }
     }
 }
@@ -49,19 +49,19 @@ impl Item {
         };
     }
 
-    pub fn eval (&self, divisor: u64) -> bool {
+    pub fn eval (&self, common_divisor:u64, divisor: u64) -> bool {
         let mut total = self.value;
         for op in &self.operations {
-            total = op.do_op(total, divisor); 
+            total = op.do_op(total, common_divisor) % common_divisor; 
         } 
-        return total == 0;
+        return total %divisor == 0;
     }
 }
 
 #[derive(Debug, Clone)]
 pub struct Monkey {
     pub index: usize,
-    pub items: Vec<Item>,
+    pub items: Vec<u64>,
     pub operation: Operation,
     pub test_divisible: u64,
     pub throw_to: (usize, usize),
@@ -106,14 +106,14 @@ impl Deserializable for Monkey {
         
         //Line 3, Test
         let divisible:u64 = rows[3].to_string().split_once("by ").unwrap().1.parse().unwrap();
-        numbers = numbers.iter().map(|n| n % divisible).collect();
+        //numbers = numbers.iter().map(|n| n % divisible).collect();
         //Line 4, True
         let true_case:usize = rows[4].to_string().split_once("monkey ").unwrap().1.parse().unwrap();
         let false_case:usize = rows[5].to_string().split_once("monkey ").unwrap().1.parse().unwrap();
         
         return Ok(Monkey {
             index: index,
-            items: numbers.into_iter().map(|n| Item::new(n)).collect(),
+            items: numbers,//.into_iter().map(|n| Item::new(n)).collect(),
             operation: operation,
             test_divisible: divisible,
             throw_to: (true_case, false_case),
