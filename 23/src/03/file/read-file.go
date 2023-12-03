@@ -20,7 +20,9 @@ func FileToStrings(year string, day string, test bool) []string {
         os.Exit(1)
     }
     
-    return strings.Split(string(bytes), "\n")
+    all_strings := strings.Split(string(bytes), "\n")
+    all_strings = all_strings[:len(all_strings)-1]
+    return all_strings
 }
 
 
