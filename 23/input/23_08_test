@@ -1,0 +1,10 @@
+LR
+
+PPA = (PPB, XXX)
+PPB = (XXX, PPZ)
+PPZ = (PPB, XXX)
+SSA = (SSB, XXX)
+SSB = (SSC, SSC)
+SSC = (SSZ, SSZ)
+SSZ = (SSB, SSB)
+XXX = (XXX, XXX)
