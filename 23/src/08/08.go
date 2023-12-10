@@ -32,14 +32,14 @@ type Map struct {
 }
 
 func main() {
-    lines := FileToStrings("23", "08", false)
+	lines := FileToStrings("23", "08", false)
 
     fmt.Println(lines)
     maps := map[string]Map{}
 
     //first line is the LR instructions 
     directions := lines[0]
-    current_nodes := []string{}
+
     //Third line and after is the direction translation
     for _,line := range lines[2:]{
 
@@ -50,52 +50,72 @@ func main() {
 
         //fmt.Println("match", match)
         maps[match[1]] = Map{Left: match[2], Right: match[3], Current: match[1]}
-        if match[1][2] == 'A'{
-            current_nodes = append(current_nodes, match[1])
-        }
         fmt.Println("map added", maps[match[1]], "to:", match[1])
     }
     fmt.Println("dir", directions)
     //fmt.Println("maps", maps)
 
+    //Find all start values
+    for _,v := range maps {
+        if v.Current[2] == 'A' {
+            matches, steps := findStepsTo(maps, directions, v.Current, func(s string) bool { return s[2] == 'Z'}, func(s string) bool {return s == v.Current})
+            fmt.Println("start value:",v.Current, "matches", matches, "steps", steps)
+        }
+    }
+}
+
+type Match struct {
+    Step int
+    Name string
+    Direction byte
+}
+
+func findStepsTo(maps map[string]Map, directions string ,start string, collectMatch func(string) bool, endMatch func(string) bool) ([]Match, int){
     steps := 1
-
+    collectMatches := []Match{}
+    current := start
+    first := true
     WHILE: 
-    for  !allMatch(current_nodes, func(l string) bool {return l[2] == 'Z'}) {
-    fmt.Println("I start at:", current_nodes)
-        for _,d := range directions {
-            for i,path := range current_nodes {
-                var next string
-                current_map, _ := maps[path]
-                // fmt.Println("current", current_map)
-                switch d {
-                case 'L':
-                    next = current_map.Left
-                case 'R':
-                    next = current_map.Right
-                default:
-                    fmt.Println("issue with directions... did not match L or R")
-                    os.Exit(0)
+    for !endMatch(current) || first {
+        first = false
+        for i,d := range directions {
+            var next string
+            current_map, _ := maps[current]
+            // fmt.Println("current", current_map)
+           switch d {
+               case 'L':
+                  next = current_map.Left
+               case 'R':
+                  next = current_map.Right
+               default:
+                  fmt.Println("issue with directions... did not match L or R")
+                  os.Exit(0)
+           }
+            if collectMatch(next) {
+                fmt.Println("matched", current)
+                hasMatchAlready := false
+                nextDirectionIndex := i + 1
+                if i + 1 == len(directions) {
+                    nextDirectionIndex = 0
                 }
-
-                //fmt.Println(current_nodes, string(d), " -> ", next)
-                current_nodes[i] = next
+                for _,m := range collectMatches {
+                    if m.Name == next && m.Direction == directions[nextDirectionIndex] {
+                        hasMatchAlready = true
+                    }
+                }
+                collectMatches = append(collectMatches, Match{Step: steps, Name: next, Direction:directions[nextDirectionIndex]})
+                if hasMatchAlready {
+                    break WHILE
+                }
             }
-
-           if allMatch(current_nodes, func(l string) bool {return l[2] == 'Z'}) {
+           // fmt.Println(current, string(d), " -> ", next)
+           if endMatch(next) {
+               fmt.Println("end matched", next)
                break WHILE
            }
+           current = next
            steps++
         }
     }
-    fmt.Println("steps to goal", steps, current_nodes)
-}
-
-func allMatch(lines []string, match func(string) bool) bool {
-    for _, line := range lines {
-        if !match(line) {
-            return false
-        }
-    }
-    return true
+    return collectMatches, steps
 }
