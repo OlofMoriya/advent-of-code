@@ -1,0 +1,15 @@
+/Users/olofmoriya/versioned/personal/advent-of-code/24/01/csharp/dayOne/bin/Debug/net8.0/dayOne
+/Users/olofmoriya/versioned/personal/advent-of-code/24/01/csharp/dayOne/bin/Debug/net8.0/dayOne.deps.json
+/Users/olofmoriya/versioned/personal/advent-of-code/24/01/csharp/dayOne/bin/Debug/net8.0/dayOne.runtimeconfig.json
+/Users/olofmoriya/versioned/personal/advent-of-code/24/01/csharp/dayOne/bin/Debug/net8.0/dayOne.dll
+/Users/olofmoriya/versioned/personal/advent-of-code/24/01/csharp/dayOne/bin/Debug/net8.0/dayOne.pdb
+/Users/olofmoriya/versioned/personal/advent-of-code/24/01/csharp/dayOne/obj/Debug/net8.0/dayOne.GeneratedMSBuildEditorConfig.editorconfig
+/Users/olofmoriya/versioned/personal/advent-of-code/24/01/csharp/dayOne/obj/Debug/net8.0/dayOne.AssemblyInfoInputs.cache
+/Users/olofmoriya/versioned/personal/advent-of-code/24/01/csharp/dayOne/obj/Debug/net8.0/dayOne.AssemblyInfo.cs
+/Users/olofmoriya/versioned/personal/advent-of-code/24/01/csharp/dayOne/obj/Debug/net8.0/dayOne.csproj.CoreCompileInputs.cache
+/Users/olofmoriya/versioned/personal/advent-of-code/24/01/csharp/dayOne/obj/Debug/net8.0/dayOne.sourcelink.json
+/Users/olofmoriya/versioned/personal/advent-of-code/24/01/csharp/dayOne/obj/Debug/net8.0/dayOne.dll
+/Users/olofmoriya/versioned/personal/advent-of-code/24/01/csharp/dayOne/obj/Debug/net8.0/refint/dayOne.dll
+/Users/olofmoriya/versioned/personal/advent-of-code/24/01/csharp/dayOne/obj/Debug/net8.0/dayOne.pdb
+/Users/olofmoriya/versioned/personal/advent-of-code/24/01/csharp/dayOne/obj/Debug/net8.0/dayOne.genruntimeconfig.cache
+/Users/olofmoriya/versioned/personal/advent-of-code/24/01/csharp/dayOne/obj/Debug/net8.0/ref/dayOne.dll

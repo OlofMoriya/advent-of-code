@@ -1,0 +1,17 @@
+_wv^VeGd
+:w
+:new
+p
+:w ref
+:e 01_b_vim
+yiw
+qq
+V:! echo "^R" * $(grep ^R" ref | wc -l)"
+q
+1000@q
+VG:! bc
+:%s/\n/+/g
+:s/^.*\(.\)$/\0/
+V:! bc
+
+
